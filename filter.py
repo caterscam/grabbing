@@ -1,3 +1,7 @@
+#mass filter wordpress only
+#add path to lines
+#code by banner and me only remakes
+
 #!/usr/bin/env
 import sys , requests , re
 from multiprocessing.dummy import Pool
@@ -52,16 +56,10 @@ def filter(site):
 					d.write(site+'/\n')
 			elif 'Joomla' in generator :
 				print ' --| '+site +' --> {}[Joomla]'.format(fg)
-				with open('joomla.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'Drupal' in generator :
 				print ' --| '+site +' --> {}[Drupal]'.format(fg)
-				with open('drupal.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'PrestaShop' in generator :
 				print ' --| '+site +' --> {}[PrestaShop]'.format(fg)
-				with open('prestashop.txt', mode='a') as d:
-					d.write(site+'/\n')
 			else :
 				if 'wp-content/themes' in src :
 					print ' --| '+site +' --> {}[WordPress]'.format(fg)
@@ -69,64 +67,51 @@ def filter(site):
 						d.write(site+'/\n')
 				elif 'catalog/view/theme'	in src :
 					print ' --| '+site +' --> {}[OpenCart]'.format(fg)
-					with open('opencart.txt', mode='a') as d:
-						d.write(site+'/\n')
 				elif 'sites/all/themes' in src :
 					print ' --| '+site +' --> {}[Drupal]'.format(fg)
-					with open('drupal.txt', mode='a') as d:
-						d.write(site+'/\n')
 				elif '<script type="text/javascript" src="/media/system/js/mootools.js"></script>' in src or '/media/system/js/' in src or 'com_content' in src :
 					print ' --| '+site +' --> {}[Joomla]'.format(fg)
-					with open('joomla.txt', mode='a') as d:
-						d.write(site+'/\n')
 				elif 'js/jquery/plugins/' in src :
 					print ' --| '+site +' --> {}[PrestaShop]'.format(fg)
-					with open('prestashop.txt', mode='a') as d:
-						d.write(site+'/\n')
 				else :
 					print ' --| '+site +' --> {}[Other]'.format(fr)
-					with open('other.txt', mode='a') as d:
-						d.write(site+'/\n')
 		else :
-			if 'wp-content/themes' in src :
+			if '/wp-content/' in src :
 				print ' --| '+site +' --> {}[WordPress]'.format(fg)
 				with open('wordpress.txt', mode='a') as d:
 					d.write(site+'/\n')
-			elif 'catalog/view/theme'	in src :
+			elif '/blog/wp-content/'	in src :
 				print ' --| '+site +' --> {}[OpenCart]'.format(fg)
-				with open('opencart.txt', mode='a') as d:
+				with open('wordpress.txt', mode='a') as d:
+					d.write(site+'/\n')
+			elif '/site/wp-content/'	in src :
+				print ' --| '+site +' --> {}[OpenCart]'.format(fg)
+				with open('wordpress.txt', mode='a') as d:
+					d.write(site+'/\n')
+			elif '/wp/wp-content/'	in src :
+				print ' --| '+site +' --> {}[OpenCart]'.format(fg)
+				with open('wordpress.txt', mode='a') as d:
+					d.write(site+'/\n')
+			elif '/wordpress/wp-content/'	in src :
+				print ' --| '+site +' --> {}[OpenCart]'.format(fg)
+				with open('wordpress.txt', mode='a') as d:
 					d.write(site+'/\n')
 			elif 'sites/all/themes' in src :
 				print ' --| '+site +' --> {}[Drupal]'.format(fg)
-				with open('drupal.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif '<script type="text/javascript" src="/media/system/js/mootools.js"></script>' in src or '/media/system/js/' in src or 'com_content' in src :
 				print ' --| '+site +' --> {}[Joomla]'.format(fg)
-				with open('joomla.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'js/jquery/plugins/' in src :
 				print ' --| '+site +' --> {}[PrestaShop]'.format(fg)
-				with open('prestashop.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'osCommerce' in src :
 				print ' --| '+site +' --> {}[osCommerce]'.format(fg)
-				with open('osCommerce.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'index.php?osCsid=' in src :
 				print ' --| '+site +' --> {}[osCommerce]'.format(fg)
-				with open('osCommerce.txt', mode='a') as d:
-					d.write(site+'/\n')
 			elif 'index.php/cPath' in src :
-				print ' --| '+site +' --> {}[osCommerce]'.format(fg)
-				with open('osCommerce.txt', mode='a') as d:
-					d.write(site+'/\n')					
+				print ' --| '+site +' --> {}[osCommerce]'.format(fg)				
 			else :
-				print ' --| '+site +' --> {}[Other]'.format(fr)
-				with open('other.txt', mode='a') as d:
-					d.write(site+'/\n')			
+				print ' --| '+site +' --> {}[Other]'.format(fr)		
 	except :
 		print ' --| '+site +' --> {}[Time Out]'.format(fr)
-		
 mp = Pool(150)
 mp.map(filter, target)
 mp.close()
